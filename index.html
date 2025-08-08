@@ -1,318 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEEPWEB INDEXOR</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEEPWEB INDEXOR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        body {
-            font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #00ff00;
-            overflow: hidden;
-        }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            overflow: hidden;
+        }
 
-        .main-container {
-            display: flex;
-            height: 100vh;
-            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-        }
+        .main-container {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        }
 
-        .left-panel {
-            width: 280px;
-            background: #111;
-            border-right: 2px solid #333;
-            padding: 20px;
-            overflow-y: auto;
-        }
+        .left-panel {
+            width: 280px;
+            background: #111;
+            border-right: 2px solid #333;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-        .grid-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #0a0a0a;
-            position: relative;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+        .grid-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-        .title {
-            color: #00ff00;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
+        .title {
+            color: #00ff00;
+            font-size: 24px; /* Increased font size */
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
 
-        .section {
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            color: #00ff00;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            border-left: 3px solid #00ff00;
-            padding-left: 8px;
-        }
-
-        .palette {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .color-btn {
-            width: 50px;
-            height: 35px;
-            border: 2px solid #333;
-            cursor: pointer;
-            border-radius: 3px;
-            position: relative;
-            transition: all 0.2s;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .color-btn:hover {
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .color-btn.active {
-            border-color: #00ff00;
-            border-width: 3px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-        }
-
-        .color-label {
-            font-size: 9px;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 1px 2px #000;
-            margin-bottom: 2px;
-        }
-
-        .chars {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .char-btn {
-            width: 50px;
-            height: 35px;
-            border: 2px solid #333;
-            background: #222;
-            color: #00ff00;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .char-btn:hover {
-            background: #333;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .char-btn.active {
-            background: #00ff00;
-            color: #000;
-            border-color: #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(64, 8px); /* Cells are now 8px wide */
-            gap: 0;
-            border: 3px solid #00ff00;
-            background: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-            width: 512px; /* Grid is now 512px x 512px */
-            height: 512px;
-        }
-
-        .cell {
-            width: 8px; /* Cell size reduced from 10px */
-            height: 8px; /* Cell size reduced from 10px */
-            border: 0.5px solid #111;
-            cursor: crosshair;
-            transition: border-color 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5px; /* Reduced font size to fit smaller cell */
-            font-family: 'Courier New', monospace;
-        }
-
-        .cell:hover {
-            border-color: #00ff00;
-        }
-
-        .status {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(17, 17, 17, 0.9);
-            padding: 10px 20px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #00ff00;
-            backdrop-filter: blur(10px);
-        }
-
-        .controls {
-            margin-bottom: 25px;
-        }
-
-        .control-btn {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 8px;
-            background: #222;
-            color: #00ff00;
-            border: 1px solid #333;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            transition: all 0.2s;
-        }
-
-        .control-btn:hover {
-            background: #333;
-            border-color: #00ff00;
-        }
-
-        .coordinates {
-            font-size: 10px;
-            color: #666;
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="main-container">
-        <div class="left-panel">
-            <div class="title">DEEPWEB INDEXOR</div> <div class="section">
-                <div class="section-title"></div>
-                <div class="palette" id="palette">
-                    <div class="color-btn active" data-color="#000000" style="background: #000000;"><span class="color-label">BLK</span></div>
-                    <div class="color-btn" data-color="#0000FF" style="background: #0000FF;"><span class="color-label">BLU</span></div>
-                    <div class="color-btn" data-color="#FF0000" style="background: #FF0000;"><span class="color-label">RBY</span></div>
-                    <div class="color-btn" data-color="#FFD700" style="background: #FFD700;"><span class="color-label">GLD</span></div>
-                    <div class="color-btn" data-color="#808080" style="background: #808080;"><span class="color-label">GRY</span></div>
-                    <div class="color-btn" data-color="#FFA500" style="background: #FFA500;"><span class="color-label">ORG</span></div>
-                    <div class="color-btn" data-color="#4B0082" style="background: #4B0082;"><span class="color-label">IND</span></div>
-                    <div class="color-btn" data-color="#00FF7F" style="background: #00FF7F;"><span class="color-label">JDE</span></div>
-                    <div class="color-btn" data-color="#8B4513" style="background: #8B4513;"><span class="color-label">BRN</span></div>
-                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;"><span class="color-label" style="color: #000;">WHT</span></div>
-                    <div class="color-btn" data-color="#00FFFF" style="background: #00FFFF;"><span class="color-label">CYN</span></div>
-                    <div class="color-btn" data-color="#FFC0CB" style="background: #FFC0CB;"><span class="color-label">PNK</span></div>
-                    <div class="color-btn" data-color="#008080" style="background: #008080;"><span class="color-label">TEL</span></div>
-                    <div class="color-btn" data-color="#FF00FF" style="background: #FF00FF;"><span class="color-label">MAG</span></div>
-                    <div class="color-btn" data-color="#00FF00" style="background: #00FF00;"><span class="color-label">GRN</span></div>
-                    <div class="color-btn" data-color="#800080" style="background: #800080;"><span class="color-label">PRP</span></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Symb</div>
-                <div class="chars" id="chars">
-                    <div class="char-btn" data-char="0">0</div>
-                    <div class="char-btn" data-char="1">1</div>
-                    <div class="char-btn" data-char="2">2</div>
-                    <div class="char-btn" data-char="3">3</div>
-                    <div class="char-btn" data-char="4">4</div>
-                    <div class="char-btn" data-char="5">5</div>
-                    <div class="char-btn" data-char="6">6</div>
-                    <div class="char-btn" data-char="7">7</div>
-                    <div class="char-btn" data-char="8">8</div>
-                    <div class="char-btn" data-char="9">9</div>
-                    <div class="char-btn" data-char="Symb">A</div>
-                    <div class="char-btn" data-char="B">B</div>
-                    <div class="char-btn" data-char="C">C</div>
-                    <div class="char-btn" data-char="D">D</div>
-                    <div class="char-btn" data-char="E">E</div>
-                    <div class="char-btn" data-char="F">F</div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Controls</div>
-                <div class="controls">
-                    <button class="control-btn" onclick="clearGrid()">CLEAR ALL</button>
-                    <button class="control-btn" onclick="saveGrid()">SAVE TOKEN</button>
-                    <button class="control-btn" onclick="loadGrid()">LOAD TOKEN</button>
-                </div>
-            </div>
-
-            <div class="coordinates" id="coordinates">
-                X: 0, Y: 0
-            </div>
-        </div>
-
-        <div class="grid-area">
-            <div class="grid" id="grid"></div>
-            <div class="status" id="status">
-                TOKEN COMPRESSION SOFTWARE | Ready
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Grid state
-        const cells = new Array(4096).fill(null).map(() => ({ color: null, char: null }));
-        let currentColor = '#000000';
-        let currentChar = null;
-        let isMouseDown = false;
-
-        // Initialize grid
-        function initGrid() {
-            const grid = document.getElementById('grid');
-            for (let i = 0; i < 4096; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.dataset.index = i;
-
-                cell.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    isMouseDown = true;
-                    paintCell(i);
-                });
-
-                cell.addEventListener('mouseenter', () => {
-                    if (isMouseDown) paintCell(i);
-                    updateCoordinates(i);
-                });
-
-                grid.appendChild(cell);
-            }
-        }
-
-        // Paint cell
-        function paintCell(index) {
-            const cell = document.querySelector(`[data-index="${index}"]
+        .section {
