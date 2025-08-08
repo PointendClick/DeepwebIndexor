@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Point and Click Lefting Loading TEK Deepweb Indexor</title>
+    <title>DEEPWEB INDEXOR</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Courier New', monospace;
             background: #1a1a1a;
@@ -39,11 +39,13 @@
             justify-content: center;
             background: #0a0a0a;
             position: relative;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .title {
             color: #00ff00;
-            font-size: 16px;
+            font-size: 24px; /* Increased font size */
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
@@ -146,6 +148,8 @@
             border: 3px solid #00ff00;
             background: #000;
             box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            width: 640px;
+            height: 640px;
         }
 
         .cell {
@@ -212,11 +216,8 @@
 </head>
 <body>
     <div class="main-container">
-        <!-- Left Control Panel -->
         <div class="left-panel">
-            <div class="title">DEEPWEB<br>INDEX</div>
-            
-            <div class="section">
+            <div class="title">DEEPWEB INDEXOR</div> <div class="section">
                 <div class="section-title"></div>
                 <div class="palette" id="palette">
                     <div class="color-btn active" data-color="#000000" style="background: #000000;"><span class="color-label">BLK</span></div>
@@ -274,7 +275,6 @@
             </div>
         </div>
 
-        <!-- Grid Area -->
         <div class="grid-area">
             <div class="grid" id="grid"></div>
             <div class="status" id="status">
@@ -297,18 +297,18 @@
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.dataset.index = i;
-                
+
                 cell.addEventListener('mousedown', (e) => {
                     e.preventDefault();
                     isMouseDown = true;
                     paintCell(i);
                 });
-                
+
                 cell.addEventListener('mouseenter', () => {
                     if (isMouseDown) paintCell(i);
                     updateCoordinates(i);
                 });
-                
+
                 grid.appendChild(cell);
             }
         }
@@ -331,7 +331,7 @@
                 cellData.color = null;
                 cell.style.backgroundColor = '';
             }
-            
+
             updateStatus();
             saveToLocalStorage();
         }
@@ -380,9 +380,9 @@
             const used = cells.filter(cell => cell.color || cell.char).length;
             const colors = new Set(cells.filter(cell => cell.color).map(cell => cell.color)).size;
             const chars = new Set(cells.filter(cell => cell.char).map(cell => cell.char)).size;
-            
+
             const mode = currentColor ? 'COLOR MODE' : currentChar ? 'CHARACTER MODE' : 'NONE';
-            document.getElementById('status').textContent = 
+            document.getElementById('status').textContent =
                 `Used: ${used}/4,096 | Colors: ${colors}/16 | Chars: ${chars}/16 | ${mode}`;
         }
 
