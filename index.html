@@ -45,7 +45,7 @@
 
         .title {
             color: #00ff00;
-            font-size: 24px; /* Increased font size */
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
@@ -143,25 +143,25 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(64, 10px);
+            grid-template-columns: repeat(64, 8px); /* Cells are now 8px wide */
             gap: 0;
             border: 3px solid #00ff00;
             background: #000;
             box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-            width: 640px;
-            height: 640px;
+            width: 512px; /* Grid is now 512px x 512px */
+            height: 512px;
         }
 
         .cell {
-            width: 10px;
-            height: 10px;
+            width: 8px; /* Cell size reduced from 10px */
+            height: 8px; /* Cell size reduced from 10px */
             border: 0.5px solid #111;
             cursor: crosshair;
             transition: border-color 0.1s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 6px;
+            font-size: 5px; /* Reduced font size to fit smaller cell */
             font-family: 'Courier New', monospace;
         }
 
@@ -315,173 +315,4 @@
 
         // Paint cell
         function paintCell(index) {
-            const cell = document.querySelector(`[data-index="${index}"]`);
-            const cellData = cells[index];
-
-            if (currentColor) {
-                cellData.color = currentColor;
-                cell.style.backgroundColor = currentColor;
-                cellData.char = null;
-                cell.textContent = '';
-            } else if (currentChar) {
-                cellData.char = currentChar;
-                cell.textContent = currentChar === 'Symb' ? '⚡' : currentChar;
-                cell.style.color = currentChar === 'Symb' ? '#ffff00' : '#ffffff';
-                cell.style.fontSize = '6px';
-                cellData.color = null;
-                cell.style.backgroundColor = '';
-            }
-
-            updateStatus();
-            saveToLocalStorage();
-        }
-
-        // Update coordinates
-        function updateCoordinates(index) {
-            const x = index % 64;
-            const y = Math.floor(index / 64);
-            document.getElementById('coordinates').textContent = `X: ${x}, Y: ${y}`;
-        }
-
-        // Color palette handling
-        document.getElementById('palette').addEventListener('click', (e) => {
-            if (e.target.closest('.color-btn')) {
-                const btn = e.target.closest('.color-btn');
-                if (btn.dataset.color) {
-                    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentColor = btn.dataset.color;
-                    currentChar = null;
-                    updateStatus();
-                }
-            }
-        });
-
-        // Character selector handling
-        document.getElementById('chars').addEventListener('click', (e) => {
-            if (e.target.dataset.char) {
-                document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.char-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                currentChar = e.target.dataset.char;
-                currentColor = null;
-                updateStatus();
-            }
-        });
-
-        // Mouse events
-        document.addEventListener('mouseup', () => {
-            isMouseDown = false;
-        });
-
-        // Status updates
-        function updateStatus() {
-            const used = cells.filter(cell => cell.color || cell.char).length;
-            const colors = new Set(cells.filter(cell => cell.color).map(cell => cell.color)).size;
-            const chars = new Set(cells.filter(cell => cell.char).map(cell => cell.char)).size;
-
-            const mode = currentColor ? 'COLOR MODE' : currentChar ? 'CHARACTER MODE' : 'NONE';
-            document.getElementById('status').textContent =
-                `Used: ${used}/4,096 | Colors: ${colors}/16 | Chars: ${chars}/16 | ${mode}`;
-        }
-
-        // Control functions
-        function clearGrid() {
-            cells.forEach((cell, index) => {
-                cells[index] = { color: null, char: null };
-                const cellEl = document.querySelector(`[data-index="${index}"]`);
-                cellEl.style.backgroundColor = '';
-                cellEl.textContent = '';
-            });
-            updateStatus();
-            saveToLocalStorage();
-        }
-
-        function saveGrid() {
-            const data = JSON.stringify(cells);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'tek-deepweb-token.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function loadGrid() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        try {
-                            const data = JSON.parse(e.target.result);
-                            data.forEach((cellData, index) => {
-                                cells[index] = cellData;
-                                const cell = document.querySelector(`[data-index="${index}"]`);
-                                if (cellData.color) {
-                                    cell.style.backgroundColor = cellData.color;
-                                    cell.textContent = '';
-                                } else if (cellData.char) {
-                                    cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
-                                    cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
-                                    cell.style.fontSize = '6px';
-                                    cell.style.backgroundColor = '';
-                                }
-                            });
-                            updateStatus();
-                            saveToLocalStorage();
-                        } catch (err) {
-                            alert('Invalid file format');
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            input.click();
-        }
-
-        // Local storage
-        function saveToLocalStorage() {
-            localStorage.setItem('tekDeepwebIndexor', JSON.stringify(cells));
-        }
-
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem('tekDeepwebIndexor');
-            if (saved) {
-                try {
-                    const savedCells = JSON.parse(saved);
-                    savedCells.forEach((cellData, index) => {
-                        cells[index] = cellData;
-                        const cell = document.querySelector(`[data-index="${index}"]`);
-                        if (cellData.color) {
-                            cell.style.backgroundColor = cellData.color;
-                            cell.textContent = '';
-                        } else if (cellData.char) {
-                            cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
-                            cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
-                            cell.style.fontSize = '6px';
-                            cell.style.backgroundColor = '';
-                        }
-                    });
-                    updateStatus();
-                } catch (err) {
-                    console.error('Failed to load saved data');
-                }
-            }
-        }
-
-        // Initialize
-        initGrid();
-        loadFromLocalStorage();
-        updateStatus();
-
-        // Prevent context menu
-        document.addEventListener('contextmenu', e => e.preventDefault());
-    </script>
-</body>
-</html>
+            const cell = document.querySelector(`[data-index="${index}"]
