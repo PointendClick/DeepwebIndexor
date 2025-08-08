@@ -5,173 +5,281 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Point and Click Lefting Loading TEK Deepweb Indexor</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background-color: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            overflow: hidden;
         }
-        .grid-container {
+
+        .main-container {
             display: flex;
-            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        }
+
+        .left-panel {
+            width: 280px;
+            background: #111;
+            border-right: 2px solid #333;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .grid-area {
+            flex: 1;
+            display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: center;
+            background: #0a0a0a;
+            position: relative;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(64, 12px);
-            gap: 0;
-            border: 2px solid #333;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .title {
+            color: #00ff00;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
         }
-        .cell {
-            width: 12px;
-            height: 12px;
-            border: 0.5px solid #ddd;
-            cursor: crosshair;
-            transition: all 0.1s;
+
+        .section {
+            margin-bottom: 25px;
         }
-        .cell:hover {
-            border-color: #007acc;
-            box-shadow: inset 0 0 0 1px #007acc;
+
+        .section-title {
+            color: #00ff00;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-left: 3px solid #00ff00;
+            padding-left: 8px;
         }
+
         .palette {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .color-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #333;
-            cursor: pointer;
-            border-radius: 4px;
-            position: relative;
-            transition: transform 0.1s;
-        }
-        .color-btn:hover {
-            transform: scale(1.1);
-        }
-        .color-btn.active {
-            border-width: 3px;
-            border-color: #000;
-            transform: scale(1.2);
-        }
-        .color-label {
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
-            font-weight: bold;
-        }
-        .chars {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .char-btn {
-            width: 35px;
+
+        .color-btn {
+            width: 50px;
             height: 35px;
             border: 2px solid #333;
-            background: white;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .color-btn:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .color-btn.active {
+            border-color: #00ff00;
+            border-width: 3px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .color-label {
+            font-size: 9px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            margin-bottom: 2px;
+        }
+
+        .chars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .char-btn {
+            width: 50px;
+            height: 35px;
+            border: 2px solid #333;
+            background: #222;
+            color: #00ff00;
+            cursor: pointer;
+            border-radius: 3px;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.1s;
+            transition: all 0.2s;
         }
+
         .char-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.1);
-        }
-        .char-btn.active {
             background: #333;
-            color: white;
-            transform: scale(1.2);
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
+
+        .char-btn.active {
+            background: #00ff00;
+            color: #000;
+            border-color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(64, 10px);
+            gap: 0;
+            border: 3px solid #00ff00;
+            background: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .cell {
+            width: 10px;
+            height: 10px;
+            border: 0.5px solid #111;
+            cursor: crosshair;
+            transition: border-color 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .cell:hover {
+            border-color: #00ff00;
+        }
+
         .status {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(17, 17, 17, 0.9);
+            padding: 10px 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #00ff00;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls {
+            margin-bottom: 25px;
+        }
+
+        .control-btn {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: #222;
+            color: #00ff00;
+            border: 1px solid #333;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #333;
+            border-color: #00ff00;
+        }
+
+        .coordinates {
+            font-size: 10px;
+            color: #666;
             text-align: center;
             margin-top: 10px;
-            font-size: 14px;
-            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">Point and Click Lefting Loading TEK Deepweb Indexor</h1>
-        <p class="title">64×64 Grid TOKEN Compression Software</p>
-        
-        <div class="grid-container">
-            <!-- Color Palette -->
-            <div class="palette" id="palette">
-                <div class="color-btn active" data-color="#000000" style="background: #000000;"><span class="color-label">BLK</span></div>
-                <div class="color-btn" data-color="#0000FF" style="background: #0000FF;"><span class="color-label">BLU</span></div>
-                <div class="color-btn" data-color="#FF0000" style="background: #FF0000;"><span class="color-label">RBY</span></div>
-                <div class="color-btn" data-color="#FFD700" style="background: #FFD700;"><span class="color-label">GLD</span></div>
-                <div class="color-btn" data-color="#808080" style="background: #808080;"><span class="color-label">GRY</span></div>
-                <div class="color-btn" data-color="#FFA500" style="background: #FFA500;"><span class="color-label">ORG</span></div>
-                <div class="color-btn" data-color="#4B0082" style="background: #4B0082;"><span class="color-label">IND</span></div>
-                <div class="color-btn" data-color="#00FF7F" style="background: #00FF7F;"><span class="color-label">JAD</span></div>
-                <div class="color-btn" data-color="#8B4513" style="background: #8B4513;"><span class="color-label">BRN</span></div>
-                <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;"><span class="color-label">WHT</span></div>
-                <div class="color-btn" data-color="#00FFFF" style="background: #00FFFF;"><span class="color-label">CYN</span></div>
-                <div class="color-btn" data-color="#FFC0CB" style="background: #FFC0CB;"><span class="color-label">PNK</span></div>
-                <div class="color-btn" data-color="#008080" style="background: #008080;"><span class="color-label">TEL</span></div>
-                <div class="color-btn" data-color="#FF00FF" style="background: #FF00FF;"><span class="color-label">MAG</span></div>
-                <div class="color-btn" data-color="#00FF00" style="background: #00FF00;"><span class="color-label">GRN</span></div>
-                <div class="color-btn" data-color="#800080" style="background: #800080;"><span class="color-label">PRP</span></div>
+    <div class="main-container">
+        <!-- Left Control Panel -->
+        <div class="left-panel">
+            <div class="title">TEK DEEPWEB<br>INDEXOR</div>
+            
+            <div class="section">
+                <div class="section-title">Colors</div>
+                <div class="palette" id="palette">
+                    <div class="color-btn active" data-color="#000000" style="background: #000000;"><span class="color-label">BLK</span></div>
+                    <div class="color-btn" data-color="#0000FF" style="background: #0000FF;"><span class="color-label">BLU</span></div>
+                    <div class="color-btn" data-color="#FF0000" style="background: #FF0000;"><span class="color-label">RBY</span></div>
+                    <div class="color-btn" data-color="#FFD700" style="background: #FFD700;"><span class="color-label">GLD</span></div>
+                    <div class="color-btn" data-color="#808080" style="background: #808080;"><span class="color-label">GRY</span></div>
+                    <div class="color-btn" data-color="#FFA500" style="background: #FFA500;"><span class="color-label">ORG</span></div>
+                    <div class="color-btn" data-color="#4B0082" style="background: #4B0082;"><span class="color-label">IND</span></div>
+                    <div class="color-btn" data-color="#00FF7F" style="background: #00FF7F;"><span class="color-label">JAD</span></div>
+                    <div class="color-btn" data-color="#8B4513" style="background: #8B4513;"><span class="color-label">BRN</span></div>
+                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;"><span class="color-label" style="color: #000;">WHT</span></div>
+                    <div class="color-btn" data-color="#00FFFF" style="background: #00FFFF;"><span class="color-label">CYN</span></div>
+                    <div class="color-btn" data-color="#FFC0CB" style="background: #FFC0CB;"><span class="color-label">PNK</span></div>
+                    <div class="color-btn" data-color="#008080" style="background: #008080;"><span class="color-label">TEL</span></div>
+                    <div class="color-btn" data-color="#FF00FF" style="background: #FF00FF;"><span class="color-label">MAG</span></div>
+                    <div class="color-btn" data-color="#00FF00" style="background: #00FF00;"><span class="color-label">GRN</span></div>
+                    <div class="color-btn" data-color="#800080" style="background: #800080;"><span class="color-label">PRP</span></div>
+                </div>
             </div>
 
-            <!-- Character Selector -->
-            <div class="chars" id="chars">
-                <div class="char-btn" data-char="0">0</div>
-                <div class="char-btn" data-char="1">1</div>
-                <div class="char-btn" data-char="2">2</div>
-                <div class="char-btn" data-char="3">3</div>
-                <div class="char-btn" data-char="4">4</div>
-                <div class="char-btn" data-char="5">5</div>
-                <div class="char-btn" data-char="6">6</div>
-                <div class="char-btn" data-char="7">7</div>
-                <div class="char-btn" data-char="8">8</div>
-                <div class="char-btn" data-char="9">9</div>
-                <div class="char-btn" data-char="Symb">Symb</div>
-                <div class="char-btn" data-char="B">B</div>
-                <div class="char-btn" data-char="C">C</div>
-                <div class="char-btn" data-char="D">D</div>
-                <div class="char-btn" data-char="E">E</div>
-                <div class="char-btn" data-char="F">F</div>
+            <div class="section">
+                <div class="section-title">Hex Characters</div>
+                <div class="chars" id="chars">
+                    <div class="char-btn" data-char="0">0</div>
+                    <div class="char-btn" data-char="1">1</div>
+                    <div class="char-btn" data-char="2">2</div>
+                    <div class="char-btn" data-char="3">3</div>
+                    <div class="char-btn" data-char="4">4</div>
+                    <div class="char-btn" data-char="5">5</div>
+                    <div class="char-btn" data-char="6">6</div>
+                    <div class="char-btn" data-char="7">7</div>
+                    <div class="char-btn" data-char="8">8</div>
+                    <div class="char-btn" data-char="9">9</div>
+                    <div class="char-btn" data-char="Symb">⚡</div>
+                    <div class="char-btn" data-char="B">B</div>
+                    <div class="char-btn" data-char="C">C</div>
+                    <div class="char-btn" data-char="D">D</div>
+                    <div class="char-btn" data-char="E">E</div>
+                    <div class="char-btn" data-char="F">F</div>
+                </div>
             </div>
 
-            <!-- 64x64 Grid -->
-            <div class="grid" id="grid"></div>
+            <div class="section">
+                <div class="section-title">Controls</div>
+                <div class="controls">
+                    <button class="control-btn" onclick="clearGrid()">CLEAR ALL</button>
+                    <button class="control-btn" onclick="saveGrid()">SAVE TOKEN</button>
+                    <button class="control-btn" onclick="loadGrid()">LOAD TOKEN</button>
+                </div>
+            </div>
+
+            <div class="coordinates" id="coordinates">
+                X: 0, Y: 0
+            </div>
         </div>
 
-        <div class="status" id="status">
-            Ready - Click colors/characters above, then click grid cells to paint
+        <!-- Grid Area -->
+        <div class="grid-area">
+            <div class="grid" id="grid"></div>
+            <div class="status" id="status">
+                TOKEN COMPRESSION SOFTWARE | Ready
+            </div>
         </div>
     </div>
 
@@ -198,10 +306,7 @@
                 
                 cell.addEventListener('mouseenter', () => {
                     if (isMouseDown) paintCell(i);
-                });
-                
-                cell.addEventListener('mouseleave', () => {
-                    updateStatus();
+                    updateCoordinates(i);
                 });
                 
                 grid.appendChild(cell);
@@ -221,9 +326,8 @@
             } else if (currentChar) {
                 cellData.char = currentChar;
                 cell.textContent = currentChar === 'Symb' ? '⚡' : currentChar;
-                cell.style.color = '#000';
-                cell.style.fontSize = '8px';
-                cell.style.lineHeight = '12px';
+                cell.style.color = currentChar === 'Symb' ? '#ffff00' : '#ffffff';
+                cell.style.fontSize = '6px';
                 cellData.color = null;
                 cell.style.backgroundColor = '';
             }
@@ -232,15 +336,25 @@
             saveToLocalStorage();
         }
 
+        // Update coordinates
+        function updateCoordinates(index) {
+            const x = index % 64;
+            const y = Math.floor(index / 64);
+            document.getElementById('coordinates').textContent = `X: ${x}, Y: ${y}`;
+        }
+
         // Color palette handling
         document.getElementById('palette').addEventListener('click', (e) => {
-            if (e.target.dataset.color) {
-                document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.char-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                currentColor = e.target.dataset.color;
-                currentChar = null;
-                updateStatus();
+            if (e.target.closest('.color-btn')) {
+                const btn = e.target.closest('.color-btn');
+                if (btn.dataset.color) {
+                    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentColor = btn.dataset.color;
+                    currentChar = null;
+                    updateStatus();
+                }
             }
         });
 
@@ -267,9 +381,68 @@
             const colors = new Set(cells.filter(cell => cell.color).map(cell => cell.color)).size;
             const chars = new Set(cells.filter(cell => cell.char).map(cell => cell.char)).size;
             
-            const mode = currentColor ? `Color: ${currentColor}` : currentChar ? `Character: ${currentChar}` : 'None';
+            const mode = currentColor ? 'COLOR MODE' : currentChar ? 'CHARACTER MODE' : 'NONE';
             document.getElementById('status').textContent = 
-                `Used: ${used}/4,096 cells | Colors: ${colors}/16 | Characters: ${chars}/16 | Mode: ${mode}`;
+                `Used: ${used}/4,096 | Colors: ${colors}/16 | Chars: ${chars}/16 | ${mode}`;
+        }
+
+        // Control functions
+        function clearGrid() {
+            cells.forEach((cell, index) => {
+                cells[index] = { color: null, char: null };
+                const cellEl = document.querySelector(`[data-index="${index}"]`);
+                cellEl.style.backgroundColor = '';
+                cellEl.textContent = '';
+            });
+            updateStatus();
+            saveToLocalStorage();
+        }
+
+        function saveGrid() {
+            const data = JSON.stringify(cells);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tek-deepweb-token.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function loadGrid() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            data.forEach((cellData, index) => {
+                                cells[index] = cellData;
+                                const cell = document.querySelector(`[data-index="${index}"]`);
+                                if (cellData.color) {
+                                    cell.style.backgroundColor = cellData.color;
+                                    cell.textContent = '';
+                                } else if (cellData.char) {
+                                    cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
+                                    cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
+                                    cell.style.fontSize = '6px';
+                                    cell.style.backgroundColor = '';
+                                }
+                            });
+                            updateStatus();
+                            saveToLocalStorage();
+                        } catch (err) {
+                            alert('Invalid file format');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
         }
 
         // Local storage
@@ -280,21 +453,25 @@
         function loadFromLocalStorage() {
             const saved = localStorage.getItem('tekDeepwebIndexor');
             if (saved) {
-                const savedCells = JSON.parse(saved);
-                savedCells.forEach((cellData, index) => {
-                    cells[index] = cellData;
-                    const cell = document.querySelector(`[data-index="${index}"]`);
-                    if (cellData.color) {
-                        cell.style.backgroundColor = cellData.color;
-                        cell.textContent = '';
-                    } else if (cellData.char) {
-                        cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
-                        cell.style.color = '#000';
-                        cell.style.fontSize = '8px';
-                        cell.style.backgroundColor = '';
-                    }
-                });
-                updateStatus();
+                try {
+                    const savedCells = JSON.parse(saved);
+                    savedCells.forEach((cellData, index) => {
+                        cells[index] = cellData;
+                        const cell = document.querySelector(`[data-index="${index}"]`);
+                        if (cellData.color) {
+                            cell.style.backgroundColor = cellData.color;
+                            cell.textContent = '';
+                        } else if (cellData.char) {
+                            cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
+                            cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
+                            cell.style.fontSize = '6px';
+                            cell.style.backgroundColor = '';
+                        }
+                    });
+                    updateStatus();
+                } catch (err) {
+                    console.error('Failed to load saved data');
+                }
             }
         }
 
