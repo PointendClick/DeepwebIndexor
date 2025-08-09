@@ -13,21 +13,21 @@
 
         body {
             font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #00ff00;
+            background: #f0f0f0;
+            color: #333;
             overflow: hidden;
         }
 
         .main-container {
             display: flex;
             height: 100vh;
-            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
         }
 
         .left-panel {
             width: 280px;
-            background: #111;
-            border-right: 2px solid #333;
+            background: #ffffff;
+            border-right: 2px solid #ccc;
             padding: 20px;
             overflow-y: auto;
         }
@@ -37,19 +37,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #0a0a0a;
+            background: #e0e0e0;
             position: relative;
             padding: 20px;
             box-sizing: border-box;
         }
 
         .title {
-            color: #00ff00;
-            font-size: 24px; /* Increased font size */
+            color: #000;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #ccc;
             padding-bottom: 10px;
         }
 
@@ -58,30 +58,31 @@
         }
 
         .section-title {
-            color: #00ff00;
+            color: #000;
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 10px;
             text-transform: uppercase;
-            border-left: 3px solid #00ff00;
+            border-left: 3px solid #000;
             padding-left: 8px;
         }
 
         .palette {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px; /* Reduced gap */
-}
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
 
-.chars {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px; /* Reduced gap */
-}
+        .chars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+        
         .color-btn {
             width: 50px;
             height: 35px;
-            border: 2px solid #333;
+            border: 2px solid #ccc;
             cursor: pointer;
             border-radius: 3px;
             position: relative;
@@ -92,36 +93,30 @@
         }
 
         .color-btn:hover {
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            border-color: #000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .color-btn.active {
-            border-color: #00ff00;
+            border-color: #000;
             border-width: 3px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
 
         .color-label {
             font-size: 9px;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 1px 2px #000;
+            color: #000;
+            text-shadow: 1px 1px 2px #fff;
             margin-bottom: 2px;
-        }
-
-        .chars {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
         }
 
         .char-btn {
             width: 50px;
             height: 35px;
-            border: 2px solid #333;
-            background: #222;
-            color: #00ff00;
+            border: 2px solid #ccc;
+            background: #eee;
+            color: #000;
             cursor: pointer;
             border-radius: 3px;
             font-family: 'Courier New', monospace;
@@ -134,25 +129,25 @@
         }
 
         .char-btn:hover {
-            background: #333;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            background: #ddd;
+            border-color: #000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .char-btn.active {
-            background: #00ff00;
-            color: #000;
-            border-color: #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            background: #000;
+            color: #fff;
+            border-color: #000;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(64, 10px);
             gap: 0;
-            border: 3px solid #00ff00;
-            background: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            border: 3px solid #000;
+            background: #fff;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
             width: 640px;
             height: 640px;
         }
@@ -160,7 +155,7 @@
         .cell {
             width: 10px;
             height: 10px;
-            border: 0.5px solid #111;
+            border: 0.5px solid #ccc;
             cursor: crosshair;
             transition: border-color 0.1s;
             display: flex;
@@ -171,7 +166,7 @@
         }
 
         .cell:hover {
-            border-color: #00ff00;
+            border-color: #000;
         }
 
         .status {
@@ -179,12 +174,12 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(17, 17, 17, 0.9);
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px 20px;
-            border: 1px solid #333;
+            border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 12px;
-            color: #00ff00;
+            color: #000;
             backdrop-filter: blur(10px);
         }
 
@@ -196,9 +191,9 @@
             width: 100%;
             padding: 8px;
             margin-bottom: 8px;
-            background: #222;
-            color: #00ff00;
-            border: 1px solid #333;
+            background: #eee;
+            color: #000;
+            border: 1px solid #ccc;
             border-radius: 3px;
             cursor: pointer;
             font-family: 'Courier New', monospace;
@@ -207,8 +202,8 @@
         }
 
         .control-btn:hover {
-            background: #333;
-            border-color: #00ff00;
+            background: #ddd;
+            border-color: #000;
         }
 
         .coordinates {
@@ -222,25 +217,26 @@
 <body>
     <div class="main-container">
         <div class="left-panel">
-            <div class="title">DEEPWEB INDEXOR</div> <div class="section">
+            <div class="title">DEEPWEB INDEXIA</div>
+            <div class="section">
                 <div class="section-title"></div>
                 <div class="palette" id="palette">
-                    <div class="color-btn active" data-color="#000000" style="background: #000000;"><span class="color-label">BLK</span></div>
-                    <div class="color-btn" data-color="#0000FF" style="background: #0000FF;"><span class="color-label">BLU</span></div>
-                    <div class="color-btn" data-color="#FF0000" style="background: #FF0000;"><span class="color-label">RBY</span></div>
-                    <div class="color-btn" data-color="#FFD700" style="background: #FFD700;"><span class="color-label">GLD</span></div>
-                    <div class="color-btn" data-color="#808080" style="background: #808080;"><span class="color-label">GRY</span></div>
-                    <div class="color-btn" data-color="#FFA500" style="background: #FFA500;"><span class="color-label">ORG</span></div>
-                    <div class="color-btn" data-color="#4B0082" style="background: #4B0082;"><span class="color-label">IND</span></div>
-                    <div class="color-btn" data-color="#00FF7F" style="background: #00FF7F;"><span class="color-label">JDE</span></div>
-                    <div class="color-btn" data-color="#8B4513" style="background: #8B4513;"><span class="color-label">BRN</span></div>
-                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;"><span class="color-label" style="color: #000;">WHT</span></div>
-                    <div class="color-btn" data-color="#00FFFF" style="background: #00FFFF;"><span class="color-label">CYN</span></div>
-                    <div class="color-btn" data-color="#FFC0CB" style="background: #FFC0CB;"><span class="color-label">PNK</span></div>
-                    <div class="color-btn" data-color="#008080" style="background: #008080;"><span class="color-label">TEL</span></div>
-                    <div class="color-btn" data-color="#FF00FF" style="background: #FF00FF;"><span class="color-label">MAG</span></div>
-                    <div class="color-btn" data-color="#00FF00" style="background: #00FF00;"><span class="color-label">GRN</span></div>
-                    <div class="color-btn" data-color="#800080" style="background: #800080;"><span class="color-label">PRP</span></div>
+                    <div class="color-btn" data-color="#000000" style="background: #000000;"><span class="color-label" style="color: #fff;">BLK</span></div>
+                    <div class="color-btn" data-color="#0000FF" style="background: #0000FF;"><span class="color-label" style="color: #fff;">BLU</span></div>
+                    <div class="color-btn" data-color="#FF0000" style="background: #FF0000;"><span class="color-label" style="color: #fff;">RBY</span></div>
+                    <div class="color-btn" data-color="#FFD700" style="background: #FFD700;"><span class="color-label" style="color: #000;">GLD</span></div>
+                    <div class="color-btn" data-color="#808080" style="background: #808080;"><span class="color-label" style="color: #fff;">GRY</span></div>
+                    <div class="color-btn" data-color="#FFA500" style="background: #FFA500;"><span class="color-label" style="color: #000;">ORG</span></div>
+                    <div class="color-btn" data-color="#4B0082" style="background: #4B0082;"><span class="color-label" style="color: #fff;">IND</span></div>
+                    <div class="color-btn" data-color="#00FF7F" style="background: #00FF7F;"><span class="color-label" style="color: #000;">JDE</span></div>
+                    <div class="color-btn" data-color="#8B4513" style="background: #8B4513;"><span class="color-label" style="color: #fff;">BRN</span></div>
+                    <div class="color-btn active" data-color="#FFFFFF" style="background: #FFFFFF;"><span class="color-label" style="color: #000;">WHT</span></div>
+                    <div class="color-btn" data-color="#00FFFF" style="background: #00FFFF;"><span class="color-label" style="color: #000;">CYN</span></div>
+                    <div class="color-btn" data-color="#FFC0CB" style="background: #FFC0CB;"><span class="color-label" style="color: #000;">PNK</span></div>
+                    <div class="color-btn" data-color="#008080" style="background: #FFF2CC;"><span class="color-label" style="color: #fff;">TEL</span></div>
+                    <div class="color-btn" data-color="#FF00FF" style="background: #FF00FF;"><span class="color-label" style="color: #fff;">MAG</span></div>
+                    <div class="color-btn" data-color="#00FF00" style="background: #00FF00;"><span class="color-label" style="color: #000;">GRN</span></div>
+                    <div class="color-btn" data-color="#800080" style="background: #800080;"><span class="color-label" style="color: #fff;">PRP</span></div>
                 </div>
             </div>
 
@@ -291,7 +287,7 @@
     <script>
         // Grid state
         const cells = new Array(4096).fill(null).map(() => ({ color: null, char: null }));
-        let currentColor = '#000000';
+        let currentColor = '#FFFFFF';
         let currentChar = null;
         let isMouseDown = false;
 
@@ -331,7 +327,7 @@
             } else if (currentChar) {
                 cellData.char = currentChar;
                 cell.textContent = currentChar === 'Symb' ? '⚡' : currentChar;
-                cell.style.color = currentChar === 'Symb' ? '#ffff00' : '#ffffff';
+                cell.style.color = '#000000';
                 cell.style.fontSize = '6px';
                 cellData.color = null;
                 cell.style.backgroundColor = '';
@@ -433,7 +429,7 @@
                                     cell.textContent = '';
                                 } else if (cellData.char) {
                                     cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
-                                    cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
+                                    cell.style.color = '#000000';
                                     cell.style.fontSize = '6px';
                                     cell.style.backgroundColor = '';
                                 }
@@ -468,12 +464,13 @@
                             cell.textContent = '';
                         } else if (cellData.char) {
                             cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
-                            cell.style.color = cellData.char === 'Symb' ? '#ffff00' : '#ffffff';
+                            cell.style.color = '#000000';
                             cell.style.fontSize = '6px';
                             cell.style.backgroundColor = '';
                         }
                     });
                     updateStatus();
+                    saveToLocalStorage();
                 } catch (err) {
                     console.error('Failed to load saved data');
                 }
