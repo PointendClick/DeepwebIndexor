@@ -3,32 +3,6 @@ I apologize for the misunderstanding. I will now provide the exact code you need
 The issue lies in two CSS properties:
 
 1.  `align-items: flex-end;` on the `.color-btn` class.
-2.  `margin-bottom: 2px;` on the `.color-label` class.
-
-The first property tells the browser to align the content to the bottom of the container, while the second adds a small space to the bottom of the text, pushing it down even further.
-
-To fix this, you need to change these two lines as follows:
-
-```css
-.color-btn {
-    /* ... other properties ... */
-    display: flex;
-    align-items: center; /* Change this line */
-    justify-content: center;
-}
-
-.color-label {
-    /* ... other properties ... */
-    text-shadow: 1px 1px 2px #000;
-    margin-bottom: 0; /* Change this line */
-}
-```
-
-By changing `align-items` to `center`, the text will be vertically centered within the button. By changing `margin-bottom` to `0`, you remove the extra space that was pushing the text down.
-
-Here is the complete code with only these two lines modified:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
