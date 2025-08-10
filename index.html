@@ -293,21 +293,28 @@
         function paintCell(index) {
             const cell = document.querySelector(`[data-index="${index}"]`);
             const cellData = cells[index];
+            const gridEl = document.getElementById('grid');
 
             if (currentChar !== null) {
+                // determine effective background before clearing it
+                let effectiveBg = cellData.color;
+                if (!effectiveBg) {
+                    effectiveBg = getComputedStyle(gridEl).backgroundColor; // e.g. "rgb(255, 255, 255)"
+                }
+
+                // choose text color: black when effective background is white, else white
+                let textColor = '#ffffff';
+                if (typeof effectiveBg === 'string' && (effectiveBg.toLowerCase() === '#ffffff' || effectiveBg.includes('255, 255, 255'))) {
+                    textColor = '#000000';
+                }
+
                 cellData.char = currentChar;
                 cell.textContent = currentChar;
                 cell.style.fontSize = '6px';
                 cellData.color = null;
                 cell.style.backgroundColor = '';
-
-                if (currentColor === '#FFFFFF') {
-                    cell.style.color = '#000000';
-                    cellData.textColor = '#000000';
-                } else {
-                    cell.style.color = '#ffffff';
-                    cellData.textColor = '#ffffff';
-                }
+                cell.style.color = textColor;
+                cellData.textColor = textColor;
             } else if (currentColor !== null) {
                 cellData.color = currentColor;
                 cell.style.backgroundColor = currentColor;
@@ -385,16 +392,24 @@
                     reader.onload = (e) => {
                         try {
                             const data = JSON.parse(e.target.result);
+                            const gridEl = document.getElementById('grid');
                             data.forEach((cellData, index) => {
                                 cells[index] = cellData;
                                 const cell = document.querySelector(`[data-index="${index}"]`);
-                                if (cellData.color) {
+                                if (cellData && cellData.color) {
                                     cell.style.backgroundColor = cellData.color;
                                     cell.textContent = '';
                                     cell.style.color = '';
-                                } else if (cellData.char) {
+                                } else if (cellData && cellData.char) {
+                                    // restore textColor if present, otherwise compute based on grid background
+                                    let textColor = cellData.textColor;
+                                    if (!textColor) {
+                                        const effectiveBg = getComputedStyle(gridEl).backgroundColor;
+                                        if (effectiveBg.includes('255, 255, 255')) textColor = '#000000';
+                                        else textColor = '#ffffff';
+                                    }
                                     cell.textContent = cellData.char;
-                                    cell.style.color = cellData.textColor || '#ffffff';
+                                    cell.style.color = textColor;
                                     cell.style.fontSize = '6px';
                                     cell.style.backgroundColor = '';
                                 } else {
@@ -423,16 +438,23 @@
             if (saved) {
                 try {
                     const savedCells = JSON.parse(saved);
+                    const gridEl = document.getElementById('grid');
                     savedCells.forEach((cellData, index) => {
                         cells[index] = cellData;
                         const cell = document.querySelector(`[data-index="${index}"]`);
-                        if (cellData.color) {
+                        if (cellData && cellData.color) {
                             cell.style.backgroundColor = cellData.color;
                             cell.textContent = '';
                             cell.style.color = '';
-                        } else if (cellData.char) {
+                        } else if (cellData && cellData.char) {
+                            let textColor = cellData.textColor;
+                            if (!textColor) {
+                                const effectiveBg = getComputedStyle(gridEl).backgroundColor;
+                                if (effectiveBg.includes('255, 255, 255')) textColor = '#000000';
+                                else textColor = '#ffffff';
+                            }
                             cell.textContent = cellData.char;
-                            cell.style.color = cellData.textColor || '#ffffff';
+                            cell.style.color = textColor;
                             cell.style.fontSize = '6px';
                             cell.style.backgroundColor = '';
                         } else {
