@@ -132,34 +132,40 @@
         }
 
         .grid {
-            display: grid;
-            grid-template-columns: repeat(64, 10px);
-            gap: 0;
-            border: 3px solid #00ff00;
-            background: #fff;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-            width: 640px;
-            height: 640px;
-            transform: scale(0.9);
-            margin-top: 20px;
-        }
+    border: none; /* Remove green border */
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+}
 
-        .cell {
-            width: 10px;
-            height: 10px;
-            border: 0.5px solid #ccc;
-            cursor: crosshair;
-            transition: border-color 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 6px;
-            font-family: 'Courier New', monospace;
-        }
+.cell {
+    width: 10px;
+    height: 10px;
+    border-top: 0.5px solid #ccc;
+    border-left: 0.5px solid #ccc;
+    border-bottom: 0;
+    border-right: 0;
+    cursor: crosshair;
+    transition: border-color 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
 
-        .cell:hover {
-            border-color: #00ff00;
-        }
+/* Right border on the last cell in each row */
+.cell:nth-child(64n) {
+    border-right: 0.5px solid #ccc;
+}
+
+/* Bottom border on all cells in the last row */
+.cell:nth-child(n + 4033) {
+    border-bottom: 0.5px solid #ccc;
+}
+
+.cell:hover {
+    border-color: #00ff00;
+}
 
         .controls {
             margin-bottom: 25px;
