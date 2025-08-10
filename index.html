@@ -88,7 +88,7 @@
             position: relative;
             transition: all 0.2s;
             display: flex;
-            align-items: center; /* THIS LINE HAS BEEN CHANGED */
+            align-items: center;
             justify-content: center;
         }
 
@@ -108,7 +108,7 @@
             font-weight: bold;
             color: #fff;
             text-shadow: 1px 1px 2px #000;
-            margin-bottom: 0; /* THIS LINE HAS BEEN CHANGED */
+            margin-bottom: 0;
         }
 
         .char-btn {
@@ -171,20 +171,6 @@
             border-color: #00ff00;
         }
 
-        .status {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(17, 17, 17, 0.9);
-            padding: 10px 20px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #00ff00;
-            backdrop-filter: blur(10px);
-        }
-
         .controls {
             margin-bottom: 25px;
         }
@@ -243,26 +229,26 @@
             </div>
 
             <div class="section">
-    <div class="section-title">Point</div>
-    <div class="chars" id="chars">
-        <div class="char-btn" data-char="0">0</div>
-        <div class="char-btn" data-char="1">1</div>
-        <div class="char-btn" data-char="2">2</div>
-        <div class="char-btn" data-char="3">3</div>
-        <div class="char-btn" data-char="4">4</div>
-        <div class="char-btn" data-char="5">5</div>
-        <div class="char-btn" data-char="6">6</div>
-        <div class="char-btn" data-char="7">7</div>
-        <div class="char-btn" data-char="8">8</div>
-        <div class="char-btn" data-char="9">9</div>
-        <div class="char-btn" data-char="A">A</div>
-        <div class="char-btn" data-char="B">B</div>
-        <div class="char-btn" data-char="C">C</div>
-        <div class="char-btn" data-char="D">D</div>
-        <div class="char-btn" data-char="E">E</div>
-        <div class="char-btn" data-char="F">F</div>
-    </div>
-</div>
+                <div class="section-title">Point</div>
+                <div class="chars" id="chars">
+                    <div class="char-btn" data-char="0">0</div>
+                    <div class="char-btn" data-char="1">1</div>
+                    <div class="char-btn" data-char="2">2</div>
+                    <div class="char-btn" data-char="3">3</div>
+                    <div class="char-btn" data-char="4">4</div>
+                    <div class="char-btn" data-char="5">5</div>
+                    <div class="char-btn" data-char="6">6</div>
+                    <div class="char-btn" data-char="7">7</div>
+                    <div class="char-btn" data-char="8">8</div>
+                    <div class="char-btn" data-char="9">9</div>
+                    <div class="char-btn" data-char="A">A</div>
+                    <div class="char-btn" data-char="B">B</div>
+                    <div class="char-btn" data-char="C">C</div>
+                    <div class="char-btn" data-char="D">D</div>
+                    <div class="char-btn" data-char="E">E</div>
+                    <div class="char-btn" data-char="F">F</div>
+                </div>
+            </div>
 
             <div class="section">
                 <div class="section-title">Click</div>
@@ -280,9 +266,6 @@
 
         <div class="grid-area">
             <div class="grid" id="grid"></div>
-            <div class="status" id="status">
-                TOKEN COMPRESSION SOFTWARE | Ready
-            </div>
         </div>
     </div>
 
@@ -326,16 +309,16 @@
                 cell.style.backgroundColor = currentColor;
                 cellData.char = null;
                 cell.textContent = '';
+                cell.style.color = '';
             } else if (currentChar) {
                 cellData.char = currentChar;
-                cell.textContent = currentChar === 'Symb' ? '⚡' : currentChar;
+                cell.textContent = currentChar;
                 cell.style.color = '#ffffff';
                 cell.style.fontSize = '6px';
                 cellData.color = null;
                 cell.style.backgroundColor = '';
             }
 
-            updateStatus();
             saveToLocalStorage();
         }
 
@@ -348,28 +331,25 @@
 
         // Color palette handling
         document.getElementById('palette').addEventListener('click', (e) => {
-            if (e.target.closest('.color-btn')) {
-                const btn = e.target.closest('.color-btn');
-                if (btn.dataset.color) {
-                    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentColor = btn.dataset.color;
-                    currentChar = null;
-                    updateStatus();
-                }
+            const btn = e.target.closest('.color-btn');
+            if (btn) {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentColor = btn.dataset.color;
+                currentChar = null;
             }
         });
 
         // Character selector handling
         document.getElementById('chars').addEventListener('click', (e) => {
-            if (e.target.dataset.char) {
-                document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.char-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                currentChar = e.target.dataset.char;
+            const btn = e.target.closest('.char-btn');
+            if (btn) {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentChar = btn.dataset.char;
                 currentColor = null;
-                updateStatus();
             }
         });
 
@@ -377,17 +357,6 @@
         document.addEventListener('mouseup', () => {
             isMouseDown = false;
         });
-
-        // Status updates
-        function updateStatus() {
-            const used = cells.filter(cell => cell.color || cell.char).length;
-            const colors = new Set(cells.filter(cell => cell.color).map(cell => cell.color)).size;
-            const chars = new Set(cells.filter(cell => cell.char).map(cell => cell.char)).size;
-
-            const mode = currentColor ? 'COLOR MODE' : currentChar ? 'CHARACTER MODE' : 'NONE';
-            document.getElementById('status').textContent =
-                `Used: ${used}/4,096 | Colors: ${colors}/16 | Chars: ${chars}/16 | ${mode}`;
-        }
 
         // Control functions
         function clearGrid() {
@@ -397,7 +366,6 @@
                 cellEl.style.backgroundColor = '';
                 cellEl.textContent = '';
             });
-            updateStatus();
             saveToLocalStorage();
         }
 
@@ -430,13 +398,12 @@
                                     cell.style.backgroundColor = cellData.color;
                                     cell.textContent = '';
                                 } else if (cellData.char) {
-                                    cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
+                                    cell.textContent = cellData.char;
                                     cell.style.color = '#ffffff';
                                     cell.style.fontSize = '6px';
                                     cell.style.backgroundColor = '';
                                 }
                             });
-                            updateStatus();
                             saveToLocalStorage();
                         } catch (err) {
                             alert('Invalid file format');
@@ -465,13 +432,12 @@
                             cell.style.backgroundColor = cellData.color;
                             cell.textContent = '';
                         } else if (cellData.char) {
-                            cell.textContent = cellData.char === 'Symb' ? '⚡' : cellData.char;
+                            cell.textContent = cellData.char;
                             cell.style.color = '#ffffff';
                             cell.style.fontSize = '6px';
                             cell.style.backgroundColor = '';
                         }
                     });
-                    updateStatus();
                     saveToLocalStorage();
                 } catch (err) {
                     console.error('Failed to load saved data');
@@ -482,11 +448,9 @@
         // Initialize
         initGrid();
         loadFromLocalStorage();
-        updateStatus();
 
         // Prevent context menu
         document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
-```
