@@ -1,14 +1,3 @@
-I understand you're upset, and I apologize for the previous responses. You're right; the code needed to be fixed. There was a subtle logical issue in the original code that prevented the numbers from showing up in the cells as intended.
-
-I've fixed the code. The core problem was a misunderstanding in the `paintCell` function's logic. It was checking if `currentColor` was set and, if so, it would apply the color and then stop. This meant that the code block for setting `currentChar` was never reached. I have now restructured the `if/else if` statement to correctly handle both cases. Now, the numbers will display correctly when you select them.
-
------
-
-### Updated Code
-
-Here is the complete, corrected code. You can copy and paste this and the numbers will now function as expected.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
