@@ -259,13 +259,11 @@
     </div>
 
     <script>
-        // Grid state
-        const cells = new Array(4096).fill(null).map(() => ({ color: null, char: null }));
+        const cells = new Array(4096).fill(null).map(() => ({ color: null, char: null, textColor: null }));
         let currentColor = '#000000';
         let currentChar = null;
         let isMouseDown = false;
-        
-        // Initialize grid
+
         function initGrid() {
             const grid = document.getElementById('grid');
             for (let i = 0; i < 4096; i++) {
@@ -284,11 +282,14 @@
                     updateCoordinates(i);
                 });
 
+                cell.addEventListener('click', () => {
+                    paintCell(i);
+                });
+
                 grid.appendChild(cell);
             }
         }
 
-        // Paint cell
         function paintCell(index) {
             const cell = document.querySelector(`[data-index="${index}"]`);
             const cellData = cells[index];
@@ -296,14 +297,22 @@
             if (currentChar !== null) {
                 cellData.char = currentChar;
                 cell.textContent = currentChar;
-                cell.style.color = '#ffffff';
                 cell.style.fontSize = '6px';
                 cellData.color = null;
                 cell.style.backgroundColor = '';
+
+                if (currentColor === '#FFFFFF') {
+                    cell.style.color = '#000000';
+                    cellData.textColor = '#000000';
+                } else {
+                    cell.style.color = '#ffffff';
+                    cellData.textColor = '#ffffff';
+                }
             } else if (currentColor !== null) {
                 cellData.color = currentColor;
                 cell.style.backgroundColor = currentColor;
                 cellData.char = null;
+                cellData.textColor = null;
                 cell.textContent = '';
                 cell.style.color = '';
             }
@@ -311,14 +320,12 @@
             saveToLocalStorage();
         }
 
-        // Update coordinates
         function updateCoordinates(index) {
             const x = index % 64;
             const y = Math.floor(index / 64);
             document.getElementById('coordinates').textContent = `X: ${x}, Y: ${y}`;
         }
 
-        // Color palette handling
         document.getElementById('palette').addEventListener('click', (e) => {
             const btn = e.target.closest('.color-btn');
             if (btn) {
@@ -330,7 +337,6 @@
             }
         });
 
-        // Character selector handling
         document.getElementById('chars').addEventListener('click', (e) => {
             const btn = e.target.closest('.char-btn');
             if (btn) {
@@ -342,18 +348,17 @@
             }
         });
 
-        // Mouse events
         document.addEventListener('mouseup', () => {
             isMouseDown = false;
         });
 
-        // Control functions
         function clearGrid() {
             cells.forEach((cell, index) => {
-                cells[index] = { color: null, char: null };
+                cells[index] = { color: null, char: null, textColor: null };
                 const cellEl = document.querySelector(`[data-index="${index}"]`);
                 cellEl.style.backgroundColor = '';
                 cellEl.textContent = '';
+                cellEl.style.color = '';
             });
             saveToLocalStorage();
         }
@@ -386,11 +391,16 @@
                                 if (cellData.color) {
                                     cell.style.backgroundColor = cellData.color;
                                     cell.textContent = '';
+                                    cell.style.color = '';
                                 } else if (cellData.char) {
                                     cell.textContent = cellData.char;
-                                    cell.style.color = '#ffffff';
+                                    cell.style.color = cellData.textColor || '#ffffff';
                                     cell.style.fontSize = '6px';
                                     cell.style.backgroundColor = '';
+                                } else {
+                                    cell.textContent = '';
+                                    cell.style.backgroundColor = '';
+                                    cell.style.color = '';
                                 }
                             });
                             saveToLocalStorage();
@@ -404,7 +414,6 @@
             input.click();
         }
 
-        // Local storage
         function saveToLocalStorage() {
             localStorage.setItem('tekDeepwebIndexor', JSON.stringify(cells));
         }
@@ -420,11 +429,16 @@
                         if (cellData.color) {
                             cell.style.backgroundColor = cellData.color;
                             cell.textContent = '';
+                            cell.style.color = '';
                         } else if (cellData.char) {
                             cell.textContent = cellData.char;
-                            cell.style.color = '#ffffff';
+                            cell.style.color = cellData.textColor || '#ffffff';
                             cell.style.fontSize = '6px';
                             cell.style.backgroundColor = '';
+                        } else {
+                            cell.textContent = '';
+                            cell.style.backgroundColor = '';
+                            cell.style.color = '';
                         }
                     });
                     saveToLocalStorage();
@@ -434,11 +448,8 @@
             }
         }
 
-        // Initialize
         initGrid();
         loadFromLocalStorage();
-
-        // Prevent context menu
         document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
