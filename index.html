@@ -67,19 +67,13 @@
             padding-left: 8px;
         }
 
-        .palette {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
-        }
-
-        .chars {
+        .palette, .chars {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 4px;
         }
         
-        .color-btn {
+        .color-btn, .char-btn {
             width: 50px;
             height: 35px;
             border: 2px solid #333;
@@ -92,14 +86,39 @@
             justify-content: center;
         }
 
+        .color-btn {
+            border-color: #333;
+        }
+
+        .char-btn {
+            background: #222;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
         .color-btn:hover {
             border-color: #00ff00;
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
 
+        .char-btn:hover {
+            background: #333;
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
         .color-btn.active {
             border-color: #00ff00;
             border-width: 3px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .char-btn.active {
+            background: #00ff00;
+            color: #000;
+            border-color: #00ff00;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
 
@@ -109,36 +128,6 @@
             color: #fff;
             text-shadow: 1px 1px 2px #000;
             margin-bottom: 0;
-        }
-
-        .char-btn {
-            width: 50px;
-            height: 35px;
-            border: 2px solid #333;
-            background: #222;
-            color: #00ff00;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .char-btn:hover {
-            background: #333;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .char-btn.active {
-            background: #00ff00;
-            color: #000;
-            border-color: #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
 
         .grid {
@@ -275,7 +264,7 @@
         let currentColor = '#000000';
         let currentChar = null;
         let isMouseDown = false;
-
+        
         // Initialize grid
         function initGrid() {
             const grid = document.getElementById('grid');
@@ -310,7 +299,7 @@
                 cellData.char = null;
                 cell.textContent = '';
                 cell.style.color = '';
-            } else if (currentChar) {
+            } else if (currentChar !== null) {
                 cellData.char = currentChar;
                 cell.textContent = currentChar;
                 cell.style.color = '#ffffff';
